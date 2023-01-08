@@ -24,7 +24,6 @@
 #include <FileName.hpp>
 #include <Shell.hpp>
 #include <Utils.hpp>
-#include "prefix.h"
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -195,7 +194,7 @@ bool CAMSStatServer::LoadConfig(void)
 {
     CFileName    config_path;
 
-    config_path = CFileName(ETCDIR) / "servers" / "stat.xml";
+    config_path = "/opt/ams-isoftstat/8.0/etc/stat.xml";
 
     CXMLParser xml_parser;
     xml_parser.SetOutputXMLNode(&ServerConfig);
