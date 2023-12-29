@@ -6,7 +6,6 @@
 SET(PROG_SRC
         AMSStatServerOptions.cpp
         AMSStatServer.cpp
-        prefix.c
         )
 
 # final build ------------------------------------------------------------------

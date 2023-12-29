@@ -24,7 +24,6 @@
 #include <FileName.hpp>
 #include <Shell.hpp>
 #include <Utils.hpp>
-#include "prefix.h"
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -193,16 +192,14 @@ void CAMSStatServer::Finalize(void)
 
 bool CAMSStatServer::LoadConfig(void)
 {
-    CFileName    config_path;
-
-    config_path = CFileName(ETCDIR) / "servers" / "stat.xml";
+    CFileName    config_path = Options.GetArgConfigFile();
 
     CXMLParser xml_parser;
     xml_parser.SetOutputXMLNode(&ServerConfig);
 
     if( xml_parser.Parse(config_path) == false ) {
         CSmallString error;
-        error << "unable to load server config";
+        error << "unable to load server config '" << config_path << "'";
         ES_ERROR(error);
         return(false);
     }

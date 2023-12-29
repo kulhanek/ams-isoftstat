@@ -1,0 +1,10 @@
+[Unit]
+Description=AMS iSoftStat server
+
+[Service]
+ExecStart=/opt/ams-isoftstat/9.0/sbin/ams-isoftstat /opt/ams-isoftstat/9.0/etc/stat.xml
+User=isoftstat
+UMask=077
+
+[Install]
+WantedBy=multi-user.target

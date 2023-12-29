@@ -18,7 +18,7 @@ Internal notes:
 
 # isql-fb
 
-CREATE DATABASE 'localhost:/var/lib/firebird/2.5/data/ams_stat.fdb' USER 'ams' PASSWORD '******';
+CREATE DATABASE 'localhost:/local/firebird/ams_stat-9.0.fdb' USER 'ams' PASSWORD '******';
 
 CREATE TABLE "STATISTICS" (
     "Site"           integer,

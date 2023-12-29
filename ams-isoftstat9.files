@@ -16,5 +16,3 @@ src/sbin/ams-isoftstat/AMSStatServerOptions.cpp
 src/sbin/ams-isoftstat/AMSStatServerOptions.hpp
 src/sbin/ams-isoftstat/CMakeLists.txt
 src/sbin/ams-isoftstat/ams-stat-server.cpp
-src/sbin/ams-isoftstat/prefix.c
-src/sbin/ams-isoftstat/prefix.h
