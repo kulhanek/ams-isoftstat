@@ -2,7 +2,7 @@ AUTHORS
 CHANGELOG
 CMakeClean.sh
 CMakeLists.txt
-README
+README.md
 TODO
 doc/firebird.txt
 doc/init.fb

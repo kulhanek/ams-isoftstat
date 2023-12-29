@@ -11,7 +11,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.10 FATAL_ERROR)
 
 # define project name ----------------------------
 PROJECT(ISOFTSTAT)
-SET(AMS_VERSION 8.0.x)
+SET(AMS_VERSION 9.x)
 
 # what languages we use --------------------------
 ENABLE_LANGUAGE(CXX)
@@ -62,14 +62,14 @@ LINK_DIRECTORIES(${FIREBIRD_ROOT}/lib)
 SET(FIREBIRD_LIB_NAME firebird)
 
 # AMS -------------------------------------------
-SET(AMS_ROOT ${DEVELOPMENT_ROOT}/projects/ams/8.0)
+SET(AMS_ROOT ${DEVELOPMENT_ROOT}/projects/ams/9.0)
 INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams SYSTEM)
-INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/system SYSTEM)
-INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/soft SYSTEM)
-INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/torque SYSTEM)
-INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/cuda SYSTEM)
-INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/srv SYSTEM)
-INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/torque SYSTEM)
+INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/base SYSTEM)
+INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/host SYSTEM)
+INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/host/components SYSTEM)
+INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/user SYSTEM)
+INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/site SYSTEM)
+INCLUDE_DIRECTORIES(${AMS_ROOT}/src/lib/ams/mods SYSTEM)
 LINK_DIRECTORIES(${AMS_ROOT}/lib)
 SET(AMS_LIB_NAME ams)
 
@@ -124,8 +124,8 @@ ENDIF(NOT DEFINED COMPOSITE_PROJECT)
 # ==============================================================================
 
 IF(NOT DEFINED COMPOSITE_PROJECT)
-    SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Werror -pedantic-errors -Wundef -Wno-long-long")
-    SET(CMAKE_CXX_FLAGS_RELEASE "-O2")
+    SET(CMAKE_CXX_FLAGS_DEBUG "-g -std=c++11 -Wall -Werror -pedantic-errors -Wundef -Wno-long-long")
+    SET(CMAKE_CXX_FLAGS_RELEASE "-O2 -std=c++11 ")
 
     SET(CMAKE_BUILD_TYPE Release)
     #SET(CMAKE_BUILD_TYPE Debug)
