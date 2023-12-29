@@ -1,5 +1,5 @@
 # Advanced Module System #
-ams-isoftstat is the part of Advanced Module System (AMS). It collects statistics about software module usage.
+ams-isoftstat is part of the Advanced Module System (AMS). It collects statistics about software module usage by receiving datagrams from the module-add-stat command and storing them in the Firebird SQL database.
 
 ## Documentation ##
 The AMS reference documentation is available at [Wiki](https://infinity.ncbr.muni.cz/).
