@@ -26,6 +26,7 @@ CREATE TABLE "STATISTICS" (
     "ModuleVers"     integer,
     "ModuleArch"     integer,
     "ModuleMode"     integer,
+    "BundleName"     integer,
     "User"           integer,
     "HostName"       integer,
     "NCPUS"          integer,
@@ -64,6 +65,7 @@ CREATE TABLE "STATISTICS" (
     "ModuleVers"     integer,   // module version
     "ModuleArch"     integer,   // module architecture
     "ModuleMode"     integer,   // module parallel mode
+    "BundleName"     integer,   // bundle name
     "User"           integer,   // user name
     "HostName"       integer,   // hostname
     "NCPUS"          integer,   // number of requested CPUs
