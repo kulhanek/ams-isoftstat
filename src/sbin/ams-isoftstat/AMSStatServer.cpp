@@ -1,6 +1,7 @@
 // =============================================================================
 //  AMS - Advanced Module System - Common Library
 // -----------------------------------------------------------------------------
+//     Copyright (C) 2024,2023 Petr Kulhanek (kulhanek@chemi.muni.cz)
 //     Copyright (C) 2004,2005,2008 Petr Kulhanek (kulhanek@chemi.muni.cz)
 //
 //     This library is free software; you can redistribute it and/or
@@ -375,21 +376,23 @@ bool CAMSStatServer::WriteDataToDatabase(CAddStatDatagram& datagram)
     sql_exec.GetInputItem(2)->SetInt(GetKeyID(datagram.GetModuleVers()));
     sql_exec.GetInputItem(3)->SetInt(GetKeyID(datagram.GetModuleArch()));
     sql_exec.GetInputItem(4)->SetInt(GetKeyID(datagram.GetModuleMode()));
-    sql_exec.GetInputItem(5)->SetInt(GetKeyID(datagram.GetUser()));
-    sql_exec.GetInputItem(6)->SetInt(GetKeyID(datagram.GetHostName()));
-    sql_exec.GetInputItem(7)->SetInt(datagram.GetNCPUs());
-    sql_exec.GetInputItem(8)->SetInt(datagram.GetNumOfHostCPUs());
-    sql_exec.GetInputItem(9)->SetInt(datagram.GetNGPUs());
-    sql_exec.GetInputItem(10)->SetInt(datagram.GetNumOfHostGPUs());
-    sql_exec.GetInputItem(11)->SetInt(datagram.GetNumOfNodes());
-    sql_exec.GetInputItem(12)->SetInt(datagram.GetFlags());
-    sql_exec.GetInputItem(13)->SetTimeAndDate(datagram.GetTimeAndDate());
+    sql_exec.GetInputItem(5)->SetInt(GetKeyID(datagram.GetBundleName()));
+    sql_exec.GetInputItem(6)->SetInt(GetKeyID(datagram.GetUser()));
+    sql_exec.GetInputItem(7)->SetInt(GetKeyID(datagram.GetHostName()));
+    sql_exec.GetInputItem(8)->SetInt(datagram.GetNCPUs());
+    sql_exec.GetInputItem(9)->SetInt(datagram.GetNumOfHostCPUs());
+    sql_exec.GetInputItem(10)->SetInt(datagram.GetNGPUs());
+    sql_exec.GetInputItem(11)->SetInt(datagram.GetNumOfHostGPUs());
+    sql_exec.GetInputItem(12)->SetInt(datagram.GetNumOfNodes());
+    sql_exec.GetInputItem(13)->SetInt(datagram.GetFlags());
+    sql_exec.GetInputItem(14)->SetTimeAndDate(datagram.GetTimeAndDate());
 
     CSmallString sql;
 
     sql = "INSERT INTO \"STATISTICS\" (\"Site\",\"ModuleName\",\"ModuleVers\",\"ModuleArch\","
-          "\"ModuleMode\",\"User\",\"HostName\",\"NCPUS\",\"NHostCPUS\",\"NGPUS\",\"NHostGPUS\",\"NNODES\","
-          "\"Flags\",\"Time\") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          "\"ModuleMode\",\"BundleName\",\"User\",\"HostName\",\"NCPUS\",\"NHostCPUS\",\"NGPUS\","
+          "\"NHostGPUS\",\"NNODES\",\"Flags\",\"Time\") "
+          "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     // execute SQL statement
     if( sql_exec.ExecuteSQL(sql) == false ) {

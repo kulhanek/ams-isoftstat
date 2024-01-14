@@ -3,7 +3,8 @@
 // =============================================================================
 // AMS - Advanced Module System
 // -----------------------------------------------------------------------------
-//    Copyright (C) 2004,2005,2008 Petr Kulhanek, kulhanek@chemi.muni.cz
+//     Copyright (C) 2024,2023 Petr Kulhanek (kulhanek@chemi.muni.cz)
+//     Copyright (C) 2004,2005,2008 Petr Kulhanek, kulhanek@chemi.muni.cz
 //
 //     This program is free software; you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
