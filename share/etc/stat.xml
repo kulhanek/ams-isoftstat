@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<config
+    database="localhost:/local/firebird/ams_stat-9.0.fdb"
+    user="ams"
+    password="****"
+    port="32598">
+    <watcher enabled="true" logname="/tmp/ams-isoftstat-9.0.log">
+</config>
