@@ -120,6 +120,7 @@ int CAMSStatServer::Init(int argc, char* argv[])
     vout << "# User        : " << Server.GetDatabaseUser() << endl;
     vout << "# Password    : " << "********" << endl;
     vout << "#" << endl;
+
     CXMLElement* p_watcher = ServerConfig.GetChildElementByPath("config/watcher");
     Watcher.ProcessWatcherControl(vout,p_watcher);
 

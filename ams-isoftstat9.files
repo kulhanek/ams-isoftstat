@@ -6,8 +6,10 @@ README.md
 TODO
 doc/firebird.txt
 doc/init.fb
-doc/stat.xml
 etc/CMakeLists.txt
+share/CMakeLists.txt
+share/etc/stat.xml
+share/systemd/ams-isoftstat-9.0.service
 src/CMakeLists.txt
 src/sbin/CMakeLists.txt
 src/sbin/ams-isoftstat/AMSStatServer.cpp

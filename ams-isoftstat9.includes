@@ -1,3 +1,6 @@
 src/sbin/ams-isoftstat
 etc
 doc
+share/systemd
+share/etc
+share

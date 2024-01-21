@@ -42,7 +42,7 @@ public:
 
     // list of all options and arguments ------------------------------------------
     CSO_LIST_BEGIN
-    // arguments ------------------------------
+    // arguments ----------------------------
     CSO_ARG(CSmallString,ConfigFile)
     // options ------------------------------
     CSO_OPT(bool,Help)
