@@ -3,6 +3,6 @@
     database="localhost:/local/firebird/ams_stat-9.0.fdb"
     user="ams"
     password="****"
-    port="32598">
+    port="32610">
     <watcher enabled="true" logname="/tmp/ams-isoftstat-9.0.log">
 </config>

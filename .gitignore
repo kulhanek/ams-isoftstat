@@ -3,4 +3,5 @@ CMakeFiles
 Makefile
 CMakeCache.txt
 /bin
-ams-isoftstat.creator.user
+/sbin
+ams-isoftstat9.creator.user
