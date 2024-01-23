@@ -562,7 +562,7 @@ const CSmallString CAMSStatServer::GetDatabasePassword(void)
 
 int CAMSStatServer::GetPortNumber(void)
 {
-    int setup = 32598;
+    int setup = 32610;
     CXMLElement* p_ele = ServerConfig.GetChildElementByPath("config");
     if( p_ele == NULL ) {
         ES_ERROR("unable to open config path");
