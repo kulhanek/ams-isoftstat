@@ -4,8 +4,8 @@ CMakeClean.sh
 CMakeLists.txt
 README.md
 TODO
+doc/ams-stat-init.fb
 doc/firebird.txt
-doc/init.fb
 etc/CMakeLists.txt
 share/CMakeLists.txt
 share/etc/stat.xml

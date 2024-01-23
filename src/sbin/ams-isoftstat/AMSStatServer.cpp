@@ -366,7 +366,7 @@ bool CAMSStatServer::WriteDataToDatabase(CAddStatDatagram& datagram)
     CFirebirdExecuteSQL sql_exec;
     sql_exec.AssignToTransaction(&Transaction);
 
-    if( sql_exec.AllocateInputItems(15) == false ) {
+    if( sql_exec.AllocateInputItems(16) == false ) {
         ES_ERROR("unable to allocate items for ExecuteSQL");
         return(false);
     }
@@ -380,18 +380,19 @@ bool CAMSStatServer::WriteDataToDatabase(CAddStatDatagram& datagram)
     sql_exec.GetInputItem(5)->SetInt(GetKeyID(datagram.GetBundleName()));
     sql_exec.GetInputItem(6)->SetInt(GetKeyID(datagram.GetUser()));
     sql_exec.GetInputItem(7)->SetInt(GetKeyID(datagram.GetHostName()));
-    sql_exec.GetInputItem(8)->SetInt(datagram.GetNCPUs());
-    sql_exec.GetInputItem(9)->SetInt(datagram.GetNumOfHostCPUs());
-    sql_exec.GetInputItem(10)->SetInt(datagram.GetNGPUs());
-    sql_exec.GetInputItem(11)->SetInt(datagram.GetNumOfHostGPUs());
-    sql_exec.GetInputItem(12)->SetInt(datagram.GetNumOfNodes());
-    sql_exec.GetInputItem(13)->SetInt(datagram.GetFlags());
-    sql_exec.GetInputItem(14)->SetTimeAndDate(datagram.GetTimeAndDate());
+    sql_exec.GetInputItem(8)->SetInt(GetKeyID(datagram.GetHostGroup()));
+    sql_exec.GetInputItem(9)->SetInt(datagram.GetNCPUs());
+    sql_exec.GetInputItem(10)->SetInt(datagram.GetNumOfHostCPUs());
+    sql_exec.GetInputItem(11)->SetInt(datagram.GetNGPUs());
+    sql_exec.GetInputItem(12)->SetInt(datagram.GetNumOfHostGPUs());
+    sql_exec.GetInputItem(13)->SetInt(datagram.GetNumOfNodes());
+    sql_exec.GetInputItem(14)->SetInt(datagram.GetFlags());
+    sql_exec.GetInputItem(15)->SetTimeAndDate(datagram.GetTimeAndDate());
 
     CSmallString sql;
 
     sql = "INSERT INTO \"STATISTICS\" (\"Site\",\"ModuleName\",\"ModuleVers\",\"ModuleArch\","
-          "\"ModuleMode\",\"BundleName\",\"User\",\"HostName\",\"NCPUS\",\"NHostCPUS\",\"NGPUS\","
+          "\"ModuleMode\",\"BundleName\",\"User\",\"HostName\",\"HostGroup\",\"NCPUS\",\"NHostCPUS\",\"NGPUS\","
           "\"NHostGPUS\",\"NNODES\",\"Flags\",\"Time\") "
           "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 

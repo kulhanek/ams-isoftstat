@@ -1,5 +1,5 @@
 
-CONNECT 'localhost:ams_stat.fdb' USER 'ams' PASSWORD '****';
+CONNECT 'localhost:/local/firebird/ams_stat-9.0.fdb' USER 'ams' PASSWORD '****' ROLE RDB$ADMIN;
 
 CREATE TABLE "STATISTICS" (
     "Site"           integer,
@@ -10,6 +10,7 @@ CREATE TABLE "STATISTICS" (
     "BundleName"     integer,
     "User"           integer,
     "HostName"       integer,
+    "HostGroup"      integer,
     "NCPUS"          integer,
     "NHostCPUS"      integer,
     "NGPUS"          integer,

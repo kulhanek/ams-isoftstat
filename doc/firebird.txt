@@ -8,111 +8,41 @@ Internal notes:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-0) create user
+1) create database and user
 
-# gsec -user sysdba -pass masterkey -add "ams" -pw "******"
-
-////////////////////////////////////////////////////////////////////////////////
-
-1) create database
-
-# isql-fb
-
-CREATE DATABASE 'localhost:/local/firebird/ams_stat-9.0.fdb' USER 'ams' PASSWORD '******';
-
-CREATE TABLE "STATISTICS" (
-    "Site"           integer,
-    "ModuleName"     integer,
-    "ModuleVers"     integer,
-    "ModuleArch"     integer,
-    "ModuleMode"     integer,
-    "BundleName"     integer,
-    "User"           integer,
-    "HostName"       integer,
-    "NCPUS"          integer,
-    "NHostCPUS"      integer,
-    "NGPUS"          integer,
-    "NHostGPUS"      integer,
-    "NNODES"         integer,
-    "Flags"          integer,
-    "Time"           timestamp
-    );
-
-CREATE TABLE "KEYS" (
-    "ID"           integer NOT NULL PRIMARY KEY,
-    "Key"          varchar(128)
-    );
-
-CREATE GENERATOR gen_key_id;
-SET GENERATOR gen_key_id TO 1;
-
-set term !! ;
-CREATE TRIGGER KEY_TRIGGER FOR "KEYS"
-ACTIVE BEFORE INSERT POSITION 0
-AS
-BEGIN
-if (NEW.ID is NULL) then NEW.ID = GEN_ID(gen_key_id, 1);
-END!!
-set term ; !!
-
-COMMIT;
+$ isql-fb
+> CREATE DATABASE 'localhost:/local/firebird/ams_stat-9.0.fdb' USER 'sysdba' PASSWORD '******';
+> CREATE USER ams PASSWORD '******';
+> GRANT RDB$ADMIN TO ams;
+> QUIT;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-CREATE TABLE "STATISTICS" (
-    "Site"           integer,   // site ID in form {TEXT:UUID}
-    "ModuleName"     integer,   // module name
-    "ModuleVers"     integer,   // module version
-    "ModuleArch"     integer,   // module architecture
-    "ModuleMode"     integer,   // module parallel mode
-    "BundleName"     integer,   // bundle name
-    "User"           integer,   // user name
-    "HostName"       integer,   // hostname
-    "NCPUS"          integer,   // number of requested CPUs
-    "NHostCPUS"      integer,   // number of host CPUs
-    "NGPUS"          integer,   // number of requested GPUs
-    "NHostGPUS"      integer,   // number of host GPUs
-    "NNODES"         integer,   // number of requested nodes
-    "Flags"          integer,   // status flags
-    "Time"           timestamp  // time when module was activated
-    );
+2) initialize database
+
+$ isql-fb < ams-stat-init.fb
 
 ////////////////////////////////////////////////////////////////////////////////
 
-2) setup alias
+3) Statistics
 
-# vi /etc/firebird/2.5/aliases.conf
+$ isql-fb
 
-ams_stat.fdb = /var/lib/firebird/2.5/data/ams_stat.fdb
+> CONNECT 'localhost:/local/firebird/ams_stat-9.0.fdb' USER 'ams' PASSWORD '*******';
 
-////////////////////////////////////////////////////////////////////////////////
+> SELECT distinct KEYS."Key" from STATISTICS LEFT JOIN KEYS ON KEYS.ID = STATISTICS."User";
+> SELECT distinct KEYS."Key" from STATISTICS LEFT JOIN KEYS ON KEYS.ID = STATISTICS."HostName";
+> SELECT distinct KEYS."Key" from STATISTICS LEFT JOIN KEYS ON KEYS.ID = STATISTICS."ModuleName";
 
-3) Connect to the database
+> SELECT COUNT(STATISTICS."ModuleName") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."ModuleName") GROUP BY STATISTICS."ModuleName",KEYS."Key" ORDER BY "pocet" DESC;
 
-# isql-fb
+> SELECT COUNT(STATISTICS."ModuleName") as "pocet", TRIM(K1."Key"||':'||K2."Key") AS "modver" FROM STATISTICS JOIN KEYS AS K1 ON (K1."ID" = STATISTICS."ModuleName") JOIN KEYS AS K2 ON (K2."ID" = STATISTICS."ModuleVers") GROUP BY STATISTICS."ModuleName", K1."Key", K2."Key" ORDER BY "pocet" DESC;
 
-CONNECT 'localhost:ams_stat.fdb' USER 'ams' PASSWORD '*******';
+> SELECT COUNT(STATISTICS."User") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."User") GROUP BY STATISTICS."User",KEYS."Key" ORDER BY "pocet" DESC;
+> SELECT COUNT(STATISTICS."ModuleVers") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."ModuleVers") GROUP BY STATISTICS."ModuleVers",KEYS."Key" ORDER BY "pocet" DESC;
+> SELECT COUNT(STATISTICS."Site") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."Site") GROUP BY STATISTICS."Site",KEYS."Key" ORDER BY "pocet" DESC;
+> SELECT COUNT(STATISTICS."BundleName") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."BundleName") GROUP BY STATISTICS."BundleName",KEYS."Key" ORDER BY "pocet" DESC;
 
-Statistics:
-SELECT distinct KEYS."Key" from STATISTICS LEFT JOIN KEYS ON KEYS.ID = STATISTICS."User";
-SELECT distinct KEYS."Key" from STATISTICS LEFT JOIN KEYS ON KEYS.ID = STATISTICS."HostName";
-SELECT distinct KEYS."Key" from STATISTICS LEFT JOIN KEYS ON KEYS.ID = STATISTICS."ModuleName";
-
-# statistiky
-SELECT COUNT(STATISTICS."ModuleName") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."ModuleName") GROUP BY STATISTICS."ModuleName",KEYS."Key" ORDER BY "pocet" DESC;
-
-SELECT COUNT(STATISTICS."ModuleName") as "pocet", TRIM(K1."Key"||':'||K2."Key") AS "modver" FROM STATISTICS JOIN KEYS AS K1 ON (K1."ID" = STATISTICS."ModuleName") JOIN KEYS AS K2 ON (K2."ID" = STATISTICS."ModuleVers") GROUP BY STATISTICS."ModuleName", K1."Key", K2."Key" ORDER BY "pocet" DESC;
-
-SELECT COUNT(STATISTICS."User") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."User") GROUP BY STATISTICS."User",KEYS."Key" ORDER BY "pocet" DESC;
-SELECT COUNT(STATISTICS."ModuleVers") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."ModuleVers") GROUP BY STATISTICS."ModuleVers",KEYS."Key" ORDER BY "pocet" DESC;
-SELECT COUNT(STATISTICS."Site") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."Site") GROUP BY STATISTICS."Site",KEYS."Key" ORDER BY "pocet" DESC;
-SELECT COUNT(STATISTICS."BundleName") AS "pocet", KEYS."Key" FROM STATISTICS JOIN KEYS ON (KEYS."ID" = STATISTICS."BundleName") GROUP BY STATISTICS."BundleName",KEYS."Key" ORDER BY "pocet" DESC;
-
-4) insert new record
-
-INSERT INTO "STATISTICS" ("Site","ModuleName","ModuleVers","ModuleArch",
-                          "ModulePara","User","HostName","NCPU","MaxCPUPerNode",
-                          "Flags","Time") VALUES(?,?,?,?,?,?,?,?,?,?,?);
 
 
 
