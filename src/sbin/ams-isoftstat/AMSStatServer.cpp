@@ -394,7 +394,7 @@ bool CAMSStatServer::WriteDataToDatabase(CAddStatDatagram& datagram)
     sql = "INSERT INTO \"STATISTICS\" (\"Site\",\"ModuleName\",\"ModuleVers\",\"ModuleArch\","
           "\"ModuleMode\",\"BundleName\",\"User\",\"HostName\",\"HostGroup\",\"NCPUS\",\"NHostCPUS\",\"NGPUS\","
           "\"NHostGPUS\",\"NNODES\",\"Flags\",\"Time\") "
-          "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     // execute SQL statement
     if( sql_exec.ExecuteSQL(sql) == false ) {
